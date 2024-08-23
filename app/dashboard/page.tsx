@@ -4,6 +4,7 @@ import prisma from '@/prisma/client'
 import BookStatus from './_components/BookStatus'
 import BookNotFinished from './_components/BookNotFinished'
 import BooksTotal from './_components/BooksTotal'
+import BookWantToReadList from './_components/BookWantToReadList'
 
 const DashboardPage = async () => {
   const recentBooks = await prisma.book.findMany({
@@ -14,10 +15,19 @@ const DashboardPage = async () => {
       createdAt: 'desc'
     }
   })
+  const bookWantToRead = await prisma.book.findMany({
+    where: {
+      status: 'NOT_READ'
+    },
+    orderBy: {
+      createdAt: 'desc'
+    }
+  })
   const weekData = await getBookCompletedByWeek()
   const monthData = await getBookCompletedByMonth()
   const notFinishedData = await getNotCompletedBooks()
   const totalBooks = await prisma.book.count()
+
   return (
     <div className='p-4'>
       <div className='grid gap-4 md:grid-cols-3'>
@@ -41,6 +51,7 @@ const DashboardPage = async () => {
           </div>
         </div>
         <div className='grid gap-4'>
+          <BookWantToReadList books={bookWantToRead} />
           <RecentBookList books={recentBooks} />
         </div>
       </div>

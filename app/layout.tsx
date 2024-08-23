@@ -13,9 +13,9 @@ const fontSans = FontSans({
 })
 
 export const metadata: Metadata = {
-  title: 'Karawa',
+  title: 'TR-ACKER',
   description:
-    ' Karawa is a platform for managing your books and tracking your reading .'
+    ' TR-ACKER is a platform for managing your books and tracking your reading .'
 }
 
 export default async function RootLayout({

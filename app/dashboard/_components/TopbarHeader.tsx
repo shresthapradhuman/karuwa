@@ -13,7 +13,7 @@ const TopbarHeader = () => {
       <nav className='flex w-full items-center px-4'>
         <TopbarMobile />
         <h1 className='hidden text-xl font-black uppercase tracking-tight md:flex'>
-          Karuwa
+          TR-ACKER
         </h1>
         <ul className='ml-8 hidden items-center space-x-6 text-base md:flex'>
           <li>
@@ -36,30 +36,6 @@ const TopbarHeader = () => {
               })}
             >
               Books
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={'/dashboard/analytics'}
-              className={cn({
-                'text-primary':
-                  pathname.replace('/dashboard/', '').split('/')[0] ===
-                  'analytics'
-              })}
-            >
-              Analytics
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={'/dashboard/profile'}
-              className={cn({
-                'text-primary':
-                  pathname.replace('/dashboard/', '').split('/')[0] ===
-                  'profile'
-              })}
-            >
-              Profile
             </Link>
           </li>
         </ul>

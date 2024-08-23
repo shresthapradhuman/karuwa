@@ -19,13 +19,16 @@ import { toast } from '@/components/ui/use-toast'
 
 const RecentBookList = ({ books }: { books: Book[] }) => {
   const [isPending, startTransition] = React.useTransition()
-  const [isDialogOpen, setDialogOpen] = React.useState(false)
+  const pageNumber = React.useRef<HTMLInputElement>(null)
   return (
-    <div className='max-w-xl space-y-8 rounded-md border p-4 shadow-md'>
+    <div className='space-y-8 rounded-md border p-4 shadow-md'>
       <div>
-        <h1 className='text-2xl font-bold'>Recent Reading</h1>
+        <h1 className='text-2xl font-bold'>Recent Reading Books</h1>
         <p>Update progress by clicking edit</p>
       </div>
+      {books.length === 0 && ( // Show message when no books are available
+        <p>No books available</p>
+      )}
       <ul className='space-y-4'>
         {books.map(book => (
           <li
@@ -59,54 +62,49 @@ const RecentBookList = ({ books }: { books: Book[] }) => {
                       : 'No progress'}
                   </p>
                   <Dialog>
-                    <DialogTrigger>
-                      <p className='cursor-pointer text-blue-500'>Edit</p>
+                    <DialogTrigger className='cursor-pointer text-blue-500'>
+                      Edit
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent className='w-full max-w-sm'>
                       <DialogHeader>
                         <DialogTitle>Update Reading Progress</DialogTitle>
                         <DialogDescription>
                           Insert book page number you are currently reading
                         </DialogDescription>
                       </DialogHeader>
-                      <form
-                        onSubmit={e => {
-                          e.preventDefault()
-                          const formData = new FormData(
-                            e.target as HTMLFormElement
-                          )
-                          const pageNumber = formData.get(
-                            'pageNumber'
-                          ) as string
-                          startTransition(() => {
-                            updateReadingProgress(
-                              book.id,
-                              parseInt(pageNumber)
-                            ).then(response => {
-                              if (response?.error) {
+                      <Input
+                        name='pageNumber'
+                        placeholder='Enter page number. eg: 20'
+                        ref={pageNumber}
+                      />
+                      <DialogClose asChild>
+                        <Button
+                          className='mt-4'
+                          onClick={() => {
+                            startTransition(() => {
+                              updateReadingProgress(
+                                book.id,
+                                parseInt(pageNumber?.current?.value ?? '0')
+                              ).then(response => {
+                                if (response?.error) {
+                                  toast({
+                                    variant: 'destructive',
+                                    description: response.error
+                                  })
+                                  return
+                                }
                                 toast({
-                                  variant: 'destructive',
-                                  description: response.error
+                                  variant: 'success',
+                                  description:
+                                    'Updated reading progress successfully'
                                 })
-                                return
-                              }
-                              toast({
-                                variant: 'success',
-                                description:
-                                  'Updated reading progress successfully'
                               })
                             })
-                          })
-                        }}
-                      >
-                        <Input
-                          name='pageNumber'
-                          placeholder='Enter page number. eg: 20'
-                        />
-                        <DialogClose>
-                          <Button className='mt-4'>Update</Button>
-                        </DialogClose>
-                      </form>
+                          }}
+                        >
+                          Update
+                        </Button>
+                      </DialogClose>
                     </DialogContent>
                   </Dialog>
                 </div>

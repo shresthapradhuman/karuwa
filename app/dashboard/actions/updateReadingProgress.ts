@@ -17,6 +17,9 @@ export async function updateReadingProgress(
     if (!book) {
       return { error: 'Book not found' }
     }
+    if (currentPage < (book?.currentPage ?? 0)) {
+      return { error: 'Invalid page number' }
+    }
     await prisma.book.update({
       where: {
         id: bookId

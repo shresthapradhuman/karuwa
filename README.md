@@ -1,4 +1,4 @@
-![alt ajaxwork](https://github.com/shresthapradhuman/karuwa/public/screencapture-karuwa-vercel-app-2024-08-24-00_10_09.png)
+![alt ajaxwork](https://github.com/shresthapradhuman/karuwa/blob/master/public/screencapture-karuwa-vercel-app-2024-08-24-00_10_09.png)
 This is a [Next.js](https://nextjs.org/) project bootstrapped with
 [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
